@@ -1,5 +1,5 @@
 {
-  "name": "vite-ts-material-ui",
+  "name": "liorzana-propdo-assignment",
   "version": "0.0.0",
   "scripts": {
     "format": "prettier --write src",
