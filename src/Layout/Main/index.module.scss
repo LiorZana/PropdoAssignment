@@ -1,0 +1,19 @@
+@import '../../utils/sass/palette.scss';
+
+$appBarHeight: 60px;
+
+.appBarRoot {
+  height: $appBarHeight;
+  border-bottom: 2px solid #adadad;
+}
+
+.layoutRoot {
+  min-height: inherit;
+  min-width: inherit;
+}
+.outlet {
+  padding-top: $appBarHeight;
+  & > * {
+    min-height: calc(100vh - $appBarHeight);
+  }
+}

@@ -1,35 +1,49 @@
-# React + TypeScript + MUI
+# PropdoAssignment
 
-A Vite template for React, TypeScript and the latest major version of MUI.
 
-## Highlights
+![image](https://user-images.githubusercontent.com/19149724/155989333-e2a45637-9842-49c3-a248-5768e3013e7a.png)
 
-- React w/ TypeScript
-- Takes 8-10 seconds to build prod bundle at 198kb
-- v5 ( latest ) version of Material UI, `@mui/material`
-- Enables the `@emotion/babel-plugin` to work with MUI (see [features](https://github.com/emotion-js/emotion/tree/main/packages/babel-plugin#features))
-- Dark mode toggle
-- Aliased imports
+Propdo Frontend Home Assignment
 
-## Demo
+(Approximate time 1 day)
 
-<img src='./screen-shots/demo.png' />
+At Propdo, we strive to build interfaces that are simple and easy to use. As a Frontend Engineer, you are responsible for implementing how our users interact with our website. 
 
-## Getting Started
+Our frontend is coded in React using the following key packages – so please keep this in mind when completing the assignment:
 
-- Clone the repo, `git clone https://github.com/christopher-caldwell/vite-material-ui.git`, or use the "Use this template" button at the top of this page.
-- Install dependencies using `yarn`
-- Start the server with `yarn dev`
+ • React with hooks (we don’t use classes)
+ ◦ useContext 
+ • Material-UI
+ • react-router-dom
+ • react-mapbox-gl 
+ • Typescript (Bonus)
 
-## MUI
+Please complete the following exercises in a single React project.
 
-To learn more about the newest ways to use MUI, checkout [the docs](https://mui.com/getting-started/usage/).
+**Exercise 1**
 
-### What's Included
+The goal of this exercise is to create a listings site. To help you achieve this, you have been supplied with dummy images as well as a json file (transactions.json) containing dummy real-estate listings to simulate the data you would receive from our backend. Within your solution, please complete the following:
 
-- Custom theming
-- Using that theme from within a `styled` component
-- Dark mode toggle with React Context
-- Aliased imports with `@/` mapping to the `src/`
-- Rollup bundle analyzer
-  - To use, run `yarn analyze`
+ • Create a page - /real-estate
+ • Load the json and present them in the best way you can think to – simulate an external API call
+ • Expected Functionality:
+ a. Search box to search for the property by address
+ b. Filter by number of rooms
+ c. Sort listings by price
+
+**Exercise 2**
+
+This exercise focuses on your logical and functional coding with the goal of testing your abilities to work with the react-mapbox-gl package (Note you will need to sign up and create a free API token: https://www.mapbox.com)
+
+Within your solution, please complete the following:
+
+ • Create a page - /map
+ • Create a map using mapbox-gl defaulting to show Israel
+ • Create two input boxes for GPS coordinates (latitude and longitude)
+ • Expected Functionality:
+ a. Enter GPS into inputs – map must zoom to coordinates
+
+ b. Click on map – coordinates must be shown in the GPS input box
+
+BONUS – draw a circle of radius 100m around the GPS point
+In your response, please include a link to the GitHub Repository of your code as well as a link to your deployed website.

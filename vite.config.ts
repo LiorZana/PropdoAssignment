@@ -1,16 +1,18 @@
-import react from '@vitejs/plugin-react'
-import Checker from 'vite-plugin-checker'
-import { resolve } from 'path'
-import { UserConfig } from 'vite'
-import { visualizer } from 'rollup-plugin-visualizer'
+import react from '@vitejs/plugin-react';
+import Checker from 'vite-plugin-checker';
+import autoprefixer from 'autoprefixer';
+import { resolve } from 'path';
+import { UserConfig } from 'vite';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 function pathResolve(dir: string) {
-  return resolve(__dirname, '.', dir)
+  return resolve(__dirname, '.', dir);
 }
 
-const shouldAnalyze = process.env.ANALYZE
+const shouldAnalyze = process.env.ANALYZE;
 
 const config: UserConfig = {
+  css: { postcss: { plugins: [autoprefixer()] } },
   resolve: {
     alias: [
       {
@@ -26,12 +28,12 @@ const config: UserConfig = {
     sourcemap: !!shouldAnalyze
   },
   plugins: [
-    react(),
+    react({ jsxImportSource: '@emotion/react' }),
     Checker({
       typescript: true,
       overlay: true,
       eslint: {
-        lintCommand: "eslint",
+        lintCommand: 'eslint',
         dev: {
           overrideConfig: {
             extensions: ['.ts', '.tsx']
@@ -40,8 +42,8 @@ const config: UserConfig = {
       }
     })
   ]
-}
+};
 
-const getConfig = () => config
+const getConfig = () => config;
 
-export default getConfig
+export default getConfig;

@@ -1,7 +1,7 @@
-import { FC } from 'react'
-import { Link, Slider, styled } from '@mui/material'
+import { FC } from 'react';
+import { Link, Slider, styled } from '@mui/material';
 
-import Header from '@/header'
+import Header from '@/header';
 
 const App: FC = () => {
   return (
@@ -17,8 +17,8 @@ const App: FC = () => {
         <Slider />
       </div>
     </Root>
-  )
-}
+  );
+};
 
 const Root = styled('div')`
   padding: 1% 2% 10vh 2%;
@@ -32,6 +32,6 @@ const Root = styled('div')`
     text-decoration: none;
     color: ${({ theme: { palette } }) => palette.primary.main};
   }
-`
+`;
 
-export default App
+export default App;

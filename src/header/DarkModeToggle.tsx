@@ -1,13 +1,13 @@
-import { FC, useContext } from 'react'
-import DarkModeIcon from '@mui/icons-material/Brightness3'
-import LightModeIcon from '@mui/icons-material/WbSunny'
-import { styled } from '@mui/material'
-import isPropValid from '@emotion/is-prop-valid'
+import { FC, useContext } from 'react';
+import DarkModeIcon from '@mui/icons-material/Brightness3';
+import LightModeIcon from '@mui/icons-material/WbSunny';
+import { styled } from '@mui/material';
+import isPropValid from '@emotion/is-prop-valid';
 
-import { ChosenTheme } from '@/providers'
+import { useChosenTheme } from '@/providers';
 
 const DarkModeToggle: FC = () => {
-  const { theme, setTheme } = useContext(ChosenTheme)
+  const { theme, setTheme } = useChosenTheme();
   return (
     <Root>
       <Checkbox
@@ -15,8 +15,8 @@ const DarkModeToggle: FC = () => {
         id='dark-mode-toggle'
         checked={theme === 'dark'}
         onChange={({ target: { checked } }) => {
-          const themeToSet = checked ? 'dark' : 'light'
-          setTheme(themeToSet)
+          const themeToSet = checked ? 'dark' : 'light';
+          setTheme(themeToSet);
         }}
       />
       <Label htmlFor='dark-mode-toggle'>
@@ -29,16 +29,16 @@ const DarkModeToggle: FC = () => {
         <Ball isChecked={theme === 'dark'} />
       </Label>
     </Root>
-  )
-}
+  );
+};
 
 const Checkbox = styled('input')`
   opacity: 0;
   position: absolute;
-`
+`;
 
 interface BallProps {
-  isChecked: boolean
+  isChecked: boolean;
 }
 const Ball = styled('div', {
   shouldForwardProp: isPropValid
@@ -53,7 +53,7 @@ const Ball = styled('div', {
   transform: translateX(0px);
   transition: transform 0.2s linear;
   ${({ isChecked }) => (isChecked ? 'transform: translateX(17px);' : '')}
-`
+`;
 
 const Label = styled('label')`
   background-color: #111;
@@ -67,11 +67,11 @@ const Label = styled('label')`
   height: 20px;
   width: 35px;
   transform: scale(1.5);
-`
+`;
 
 const Root = styled('div')`
   transition: background 0.2s linear;
-`
+`;
 
 const SunIcon = styled('i')`
   color: #f39c12;
@@ -81,7 +81,7 @@ const SunIcon = styled('i')`
     }
     font-size: 0.6em;
   }
-`
+`;
 const MoonIcon = styled('i')`
   color: #f1c40f;
   & svg {
@@ -90,6 +90,6 @@ const MoonIcon = styled('i')`
     }
     font-size: 0.6em;
   }
-`
+`;
 
-export default DarkModeToggle
+export default DarkModeToggle;
