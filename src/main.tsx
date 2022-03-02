@@ -1,15 +1,20 @@
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 
-import { ChosenThemeProvider, ThemeProvider } from '@/providers';
+import { ColorMode, ThemeProvider } from '@/providers';
 import App from './App';
+import { BrowserRouter } from 'react-router-dom';
+import './main.css';
+
 ReactDOM.render(
   <StrictMode>
-    <ChosenThemeProvider>
+    <ColorMode>
       <ThemeProvider>
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </ThemeProvider>
-    </ChosenThemeProvider>
+    </ColorMode>
   </StrictMode>,
   document.getElementById('root')
 );

@@ -12,6 +12,7 @@ function pathResolve(dir: string) {
 const shouldAnalyze = process.env.ANALYZE;
 
 const config: UserConfig = {
+  publicDir: 'public',
   css: { postcss: { plugins: [autoprefixer()] } },
   resolve: {
     alias: [

@@ -1,2 +1,2 @@
-export * from './ChosenTheme';
+export * from './ColorMode';
 export * from './Theme';

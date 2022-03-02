@@ -1,34 +1,38 @@
 import { FC, useContext, useMemo } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
+// import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
+import { createTheme, Palette } from '@mui/material';
+import { ThemeProvider as MuiThemeProvider } from '@emotion/react';
 
-import { ChosenTheme } from './ChosenTheme';
+import { ColorModeContext } from './ColorMode';
+import { ThemeMode } from '.';
 
-export const ThemeProvider: FC = ({ children }) => {
-  const { theme } = useContext(ChosenTheme);
-  const muiTheme = useMemo(() => createThemeHelper(theme), [theme]);
-
-  return (
-    <MuiThemeProvider theme={muiTheme}>
-      <CssBaseline />
-      {children}
-    </MuiThemeProvider>
-  );
+const lightPalette: Partial<Palette> = {
+  background: {
+    default: '#f0f0f0',
+    paper: '#ffffff'
+  },
+  primary: {
+    main: '#00b8d4'
+  } as Palette['primary']
 };
 
-const brandColor = '#00b8d4';
-const createThemeHelper = (theme: 'dark' | 'light') => {
-  const isDark = theme === 'dark';
+const darkPallette: Partial<Palette> = {
+  background: {
+    default: '#303030;',
+    paper: '#242526'
+  },
+  primary: {
+    main: '#003b44'
+  } as Palette['primary']
+};
+
+const createThemeHelper = (mode: 'dark' | 'light') => {
+  const isDark = mode === 'dark';
   return createTheme({
     palette: {
-      mode: theme,
-      background: {
-        default: isDark ? '#303030;' : '#f0f0f0',
-        paper: isDark ? '#242526' : '#ffffff'
-      },
-      primary: {
-        main: brandColor
-      },
+      mode,
+      ...(isDark ? darkPallette : lightPalette),
       error: {
         main: 'rgb(232, 51, 51)'
       },
@@ -37,4 +41,18 @@ const createThemeHelper = (theme: 'dark' | 'light') => {
       }
     }
   });
+};
+
+const useCreateTheme = (mode: ThemeMode) => useMemo(() => createThemeHelper(mode), [mode]);
+
+export const ThemeProvider: FC = ({ children }) => {
+  const { mode } = useContext(ColorModeContext);
+  const muiTheme = useCreateTheme(mode);
+
+  return (
+    <MuiThemeProvider theme={muiTheme}>
+      <CssBaseline />
+      {children}
+    </MuiThemeProvider>
+  );
 };

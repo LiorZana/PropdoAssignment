@@ -4,10 +4,10 @@ import LightModeIcon from '@mui/icons-material/WbSunny';
 import { styled } from '@mui/material';
 import isPropValid from '@emotion/is-prop-valid';
 
-import { useChosenTheme } from '@/providers';
+import { useColorMode } from '@/providers';
 
 const DarkModeToggle: FC = () => {
-  const { theme, setTheme } = useChosenTheme();
+  const { mode: theme, setMode: setTheme } = useColorMode();
   return (
     <Root>
       <Checkbox

@@ -2,13 +2,12 @@ import { AppBar, Toolbar, Button, IconButton, Typography } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import { css } from '@emotion/react';
 import styles from './index.module.scss';
-import { useColorMode } from '@/contexts/colorMode';
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
-import { useChosenTheme } from '@/providers';
+import { PropsWithChildren } from 'react';
+import { useColorMode } from '@/providers';
 
-const MainLayout = () => {
-  const theme = useChosenTheme();
-  const { mode, toggleColorMode } = useColorMode();
+const Layout: (props: PropsWithChildren<any>) => JSX.Element = () => {
+  const { mode, toggleMode } = useColorMode();
   const leftButtons: { label: string; href: string }[] = [
     { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
@@ -33,7 +32,7 @@ const MainLayout = () => {
           ))}
           <IconButton
             size='large'
-            onClick={() => toggleColorMode()}
+            onClick={() => toggleMode()}
             style={{
               marginLeft: 'auto',
               color: mode === 'dark' ? 'white' : 'black'
@@ -50,4 +49,4 @@ const MainLayout = () => {
   );
 };
 
-export default MainLayout;
+export default Layout;
