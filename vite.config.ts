@@ -13,6 +13,8 @@ const shouldAnalyze = process.env.ANALYZE;
 
 const config: UserConfig = {
   publicDir: 'public',
+  envDir: './',
+  envPrefix: 'VITE_',
   css: { postcss: { plugins: [autoprefixer()] } },
   resolve: {
     alias: [

@@ -5,3 +5,4 @@ dist-ssr
 *.local
 bundle-size
 build
+.env

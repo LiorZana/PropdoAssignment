@@ -4,6 +4,7 @@ import Loadable from './components/Loadable';
 import Layout from './Layout';
 
 const RealEstate = Loadable(lazy(() => import('@/views/RealEstate')));
+const Map = Loadable(lazy(() => import('@/views/Map')));
 
 const routes: RouteObject = {
   path: '/',
@@ -12,6 +13,10 @@ const routes: RouteObject = {
     {
       path: '/real-estate',
       element: <RealEstate />
+    },
+    {
+      path: '/map',
+      element: <Map />
     }
   ]
 };

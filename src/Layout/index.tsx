@@ -10,9 +10,8 @@ const Layout: (props: PropsWithChildren<any>) => JSX.Element = () => {
   const { mode, toggleMode } = useColorMode();
   const leftButtons: { label: string; href: string }[] = [
     { label: 'Home', href: '/' },
-    { label: 'About', href: '/about' },
-    { label: 'Works', href: '/works' },
-    { label: 'Contact', href: '/contact' }
+    { label: 'Real estate', href: '/real-estate' },
+    { label: 'Map', href: '/map' }
   ];
   return (
     <div className={styles.layoutRoot}>
