@@ -4,7 +4,7 @@ import Loadable from './components/Loadable';
 import Layout from './Layout';
 
 const RealEstate = Loadable(lazy(() => import('@/views/RealEstate')));
-const Map = Loadable(lazy(() => import('@/views/Map')));
+const MapRoute = Loadable(lazy(() => import('@/views/MapRoute')));
 
 const routes: RouteObject = {
   path: '/',
@@ -16,7 +16,11 @@ const routes: RouteObject = {
     },
     {
       path: '/map',
-      element: <Map />
+      element: <MapRoute />
+    },
+    {
+      path: '/map/:lngLat',
+      element: <MapRoute />
     }
   ]
 };

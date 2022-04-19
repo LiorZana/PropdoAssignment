@@ -1,4 +1,8 @@
 declare namespace UTILS {
+  type ColorMode = 'light' | 'dark';
+  type ArrayMember<T> = T extends Array<infer M> ? M : T;
+  type Range = { min: number; max: number };
+  type RangeTuple = [min: number, max: number];
   type CSSUnit =
     | 'cm'
     | 'mm'
@@ -18,5 +22,6 @@ declare namespace UTILS {
     | 'vmin'
     | 'vmax'
     | '%';
-  type ColorMode = 'light' | 'dark';
+  type GenericObject<Values = any> = { [key: string]: Values };
+  type MappedGenericObject<Keys extends GenericObject, Values extends any> = { [key in keyof Keys]: Values };
 }

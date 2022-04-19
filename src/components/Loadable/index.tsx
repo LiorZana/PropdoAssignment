@@ -5,7 +5,7 @@ import { Suspense, LazyExoticComponent, ComponentType, PropsWithChildren } from 
 
 // ==============================|| LOADABLE - LAZY LOADING ||============================== //
 
-const Loadable = (Component: LazyExoticComponent<() => JSX.Element> | ComponentType<React.ReactNode>) =>
+const Loadable = (Component: LazyExoticComponent<() => JSX.Element> | ComponentType<React.PropsWithChildren<any>>) =>
   function Loaded(props: PropsWithChildren<unknown>) {
     return (
       <Suspense fallback={<Loader />}>

@@ -1,12 +1,15 @@
 import { StrictMode } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import { ColorMode, ThemeProvider } from '@/providers';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import './main.css';
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container!);
+
+root.render(
   <StrictMode>
     <ColorMode>
       <ThemeProvider>
@@ -15,6 +18,5 @@ ReactDOM.render(
         </BrowserRouter>
       </ThemeProvider>
     </ColorMode>
-  </StrictMode>,
-  document.getElementById('root')
+  </StrictMode>
 );

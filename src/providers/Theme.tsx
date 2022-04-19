@@ -1,38 +1,17 @@
-import { FC, useContext, useMemo } from 'react';
+import { FC, PropsWithChildren, useContext, useMemo } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 // import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
-import { createTheme, Palette } from '@mui/material';
+import { createTheme } from '@mui/material';
 import { ThemeProvider as MuiThemeProvider } from '@emotion/react';
-
 import { ColorModeContext } from './ColorMode';
 import { ThemeMode } from '.';
-
-const lightPalette: Partial<Palette> = {
-  background: {
-    default: '#f0f0f0',
-    paper: '#ffffff'
-  },
-  primary: {
-    main: '#00b8d4'
-  } as Palette['primary']
-};
-
-const darkPallette: Partial<Palette> = {
-  background: {
-    default: '#303030;',
-    paper: '#242526'
-  },
-  primary: {
-    main: '#003b44'
-  } as Palette['primary']
-};
+import palette from './Palette';
 
 const createThemeHelper = (mode: 'dark' | 'light') => {
-  const isDark = mode === 'dark';
   return createTheme({
     palette: {
       mode,
-      ...(isDark ? darkPallette : lightPalette),
+      ...palette[mode],
       error: {
         main: 'rgb(232, 51, 51)'
       },
@@ -45,7 +24,7 @@ const createThemeHelper = (mode: 'dark' | 'light') => {
 
 const useCreateTheme = (mode: ThemeMode) => useMemo(() => createThemeHelper(mode), [mode]);
 
-export const ThemeProvider: FC = ({ children }) => {
+export const ThemeProvider: FC<PropsWithChildren<any>> = ({ children }) => {
   const { mode } = useContext(ColorModeContext);
   const muiTheme = useCreateTheme(mode);
 

@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["scripts"],
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "target": "ES2015",
+    "module": "CommonJS"
+  },
+  "ts-node": {
+    "files": true,
+    "moduleTypes": {
+      "editTransactions.ts": "csj"
+    }
+  }
+}

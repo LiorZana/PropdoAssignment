@@ -1,10 +1,10 @@
-import { FC, createContext, Dispatch, SetStateAction, useContext, useCallback } from 'react';
+import { FC, createContext, Dispatch, SetStateAction, useContext, useCallback, PropsWithChildren } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useLocalStorage } from '@caldwell619/react-hooks';
 
 export const ColorModeContext = createContext<IChosenTheme>({} as IChosenTheme);
 
-export const ColorMode: FC = ({ children }) => {
+export const ColorMode: FC<PropsWithChildren<any>> = ({ children }) => {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [mode, setMode] = useLocalStorage<ThemeMode>('theme', prefersDarkMode ? 'dark' : 'light', true);
   const toggleMode = () => setMode(t => (t === 'light' ? 'dark' : 'light'));
