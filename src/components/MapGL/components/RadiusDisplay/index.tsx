@@ -34,14 +34,15 @@ const squareGeoJson = (longitude: number, latitude: number, radius: number): Geo
   };
 };
 
-const layerStyle = (radius: number): FillLayer => ({
+const layerStyle: FillLayer = {
   id: 'point',
   type: 'fill',
   paint: {
-    'fill-outline-color': 'yellow',
+    'fill-color': '#205681',
+    'fill-outline-color': '#d3d61c',
     'fill-opacity': 0.4
   }
-});
+};
 
 const RadiusDisplay = ({
   longitude,
@@ -50,13 +51,13 @@ const RadiusDisplay = ({
   sourceId
 }: GeoLocation & { radius: false | number; sourceId: string }) => {
   const circle = useMemo(
-    () => turf.circle([longitude, latitude], radius || 0, { steps: 4, units: 'meters' }),
+    () => turf.circle([longitude, latitude], radius || 0, { steps: 50, units: 'meters' }),
     [longitude, latitude, radius]
   );
 
   return (
-    <Source id={sourceId} type='geojson' data={squareGeoJson(longitude, latitude, radius || 0)}>
-      {!!radius && <Layer {...layerStyle(radius)} />}
+    <Source id={sourceId} type='geojson' data={circle}>
+      {!!radius && <Layer {...layerStyle} />}
     </Source>
   );
 };

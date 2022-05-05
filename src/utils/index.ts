@@ -40,6 +40,7 @@ export const capitalizeString = (str: string) => {
   return !str ? '' : str.slice()[0].toUpperCase() + str.slice(0, str.length - 1);
 };
 
+/** Inclusive default value: true */
 export const isInRange = (value: number, min: number, max: number, inclusive = true) =>
   inclusive ? value >= min && value <= max : value > min && value < max;
 
@@ -52,7 +53,7 @@ export const filterMap = <T, R>(
   for (let i = 0; i < array.length; i++) {
     const element = array[i];
     if (filterCallback(element, i, array)) {
-      result.push(mapCallback(element, i, array));
+      result.push(mapCallback(element, result.length, array));
     }
   }
   return result;
@@ -72,13 +73,23 @@ export const conditionalFilterMap = <T, R>(
 export const limitString = (str: string, maxLength: number, threeDots = false) =>
   str.slice(0, Math.min(maxLength, str.length)) + (threeDots && maxLength < str.length ? '...' : '');
 
-export const mapObject = <T extends UTILS.GenericObject, R extends any>(
+type test<T extends UTILS.GenericObject, Return extends any, K extends keyof T> = (
+  source: T,
+  callback: (key: K, value: T[K]) => Return
+) => { [key in K]: Return };
+
+export const mapObject = <
+  T extends UTILS.GenericObject,
+  R extends any,
+  Key = T extends UTILS.MappedGenericObject<T, infer K> ? K : never
+>(
   object: T,
-  callback: (key: keyof T, value: T[keyof T]) => R
+  callback: (key: keyof T, value: Key) => R
 ) => {
   const target = {} as UTILS.MappedGenericObject<T, ReturnType<typeof callback>>;
-  for (const [key, value] of Object.entries<T>(object)) {
-    target[key as keyof T] = callback(key, value as T[keyof T]);
+  for (const key in object) {
+    const value = object[key];
+    target[key] = callback(key, value);
   }
   return target;
 };
@@ -94,4 +105,15 @@ export const mapObjectToValue = <T extends UTILS.GenericObject, V extends any>(
     if (Object.prototype.hasOwnProperty.call(object, key as any)) result[key as keyof T] = value;
   }
   return result;
+};
+
+export const mapWithFalloff = <T extends any, R extends any, F extends any>(
+  array: T[],
+  callback: (value: T, index: number, array: T[]) => R,
+  falloff: F
+): R[] | F => {
+  if (array.length) {
+    return array.map(callback);
+  }
+  return falloff;
 };

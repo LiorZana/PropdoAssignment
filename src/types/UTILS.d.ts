@@ -24,4 +24,7 @@ declare namespace UTILS {
     | '%';
   type GenericObject<Values = any> = { [key: string]: Values };
   type MappedGenericObject<Keys extends GenericObject, Values extends any> = { [key in keyof Keys]: Values };
+  type PickByType<T, Value> = {
+    [P in keyof T as T[P] extends Value | undefined ? P : never]: T[P];
+  };
 }

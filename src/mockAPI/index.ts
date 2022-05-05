@@ -40,14 +40,14 @@ export interface TransactionData {
 }
 
 class MockAPI {
-  private static promisifiy<T>(data: T, delay = 1000, shouldReject = false) {
+  private promisifiy<T>(data: T, delay = 1000, shouldReject = false) {
     return new Promise<T>((resolve, reject) => {
       setTimeout(() => (shouldReject ? reject('Error!') : resolve(data)), delay);
     });
   }
 
-  static fetch() {
-    return MockAPI.promisifiy(
+  fetch() {
+    return this.promisifiy(
       transactions.properties.map(p => ({
         ...p,
         price: stringOrNumberToNumber(p.price),
@@ -61,5 +61,6 @@ class MockAPI {
     );
   }
 }
+const MockApi = new MockAPI();
 
-export default MockAPI;
+export default MockApi;

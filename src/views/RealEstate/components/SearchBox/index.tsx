@@ -1,107 +1,79 @@
 import { StateKey } from '@/types/address';
-import { Autocomplete, Divider, TextField, Typography } from '@mui/material';
+import { Autocomplete, AutocompleteProps, Divider, TextField, TextFieldProps, Typography } from '@mui/material';
+import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
-import { StatesObject } from '../..';
+import { StatesObject } from '@/stores/RealEstateStore/utils';
+import RealEstateStore from '@/stores/RealEstateStore';
 
-const SearchBox = ({
-  states,
-  cities,
-  addresses,
-  onStatesChange,
-  onCitiesChange,
-  onAddressChange
-}: {
-  states: { name: string; key: StateKey }[];
-  cities: string[];
-  addresses: string[];
-  onStatesChange: (states: StateKey[]) => void;
-  onCitiesChange: (cities: string[]) => void;
-  onAddressChange: (newAddress: string) => void;
-}) => {
-  const [statesFilters, setStatesFilters] = useState<StatesObject[]>([]);
-  const [cityFilters, setCityFilters] = useState<string[]>([]);
-  const [addressFilter, setAddressFilter] = useState<string | null>(null);
+const textFieldProps: TextFieldProps = { size: 'small', margin: 'dense', type: 'text', autoComplete: 'off' };
 
-  useEffect(() => {
-    const inCities = cityFilters.filter(f => cities.indexOf(f) !== -1);
-    if (inCities.length !== cityFilters.length) {
-      setCityFilters(inCities);
-    }
-  }, [cityFilters, cities]);
+const autoCompleteProps: Omit<AutocompleteProps<any, undefined, undefined, undefined>, 'options' | 'renderInput'> = {
+  size: 'small',
+  fullWidth: true,
+  disablePortal: true,
+  filterSelectedOptions: true,
+  autoComplete: false
+};
 
-  useEffect(() => {
-    if (addressFilter && addresses.indexOf(addressFilter) === -1) {
-      setAddressFilter(null);
-    }
-  }, [addressFilter, addresses]);
-
-  useEffect(() => {
-    onStatesChange(statesFilters.map(s => s.key));
-  }, [onStatesChange, statesFilters]);
-
-  useEffect(() => {
-    onCitiesChange(cityFilters);
-  }, [onCitiesChange, cityFilters]);
-
-  useEffect(() => {
-    onAddressChange(addressFilter || '');
-  }, [onAddressChange, addressFilter]);
-
-  return (
-    <div>
-      <Typography>Filter locations</Typography>
+const SearchBox = observer(
+  ({
+    onStatesChange,
+    onCitiesChange,
+    onAddressChange,
+    store
+  }: {
+    states: { name: string; key: StateKey }[];
+    cities: string[];
+    addresses: string[];
+    onStatesChange: (states: StatesObject[]) => void;
+    onCitiesChange: (cities: string[]) => void;
+    onAddressChange: (newAddress: string) => void;
+    store: RealEstateStore;
+  }) => {
+    const { filters, filterOptions } = store;
+    const { states, cities, addresses } = filterOptions;
+    return (
       <div
         css={{
           display: 'flex',
           width: '100%',
-          flexDirection: 'column'
+          flexDirection: 'column',
+          marginBottom: '0.5rem',
+          padding: '0 0.5rem'
         }}
       >
         <Autocomplete
-          onChange={(_, v) => setStatesFilters(v)}
-          disablePortal
-          fullWidth
+          {...(autoCompleteProps as AutocompleteProps<StatesObject, true, false, false>)}
           multiple
+          options={states}
+          value={filters.states.length ? filters.states : []}
           getOptionLabel={o => o.name}
           isOptionEqualToValue={(o, v) => o.key === v.key}
-          filterSelectedOptions
-          options={states}
-          value={statesFilters}
-          renderInput={params => (
-            <TextField margin='dense' autoComplete='off' placeholder='Select states' {...params} />
-          )}
+          onChange={(_, v) => filters.set.states(v)}
+          renderInput={params => <TextField {...textFieldProps} placeholder='Select states' {...params} />}
         />
-        <Divider sx={{ my: 1 }} variant='middle' flexItem />
+        <Divider sx={{ my: 0.5 }} variant='middle' flexItem />
         <Autocomplete
-          value={cityFilters.filter(f => cities.indexOf(f) !== -1)}
+          {...(autoCompleteProps as AutocompleteProps<string, true, false, false>)}
+          value={filters.cities.length ? filters.cities : []}
           multiple
-          onChange={(_, v) => setCityFilters(v)}
-          filterSelectedOptions
-          fullWidth
+          onChange={(_, v) => filters.set.cities(v)}
           options={cities}
-          disablePortal
-          autoComplete={false}
           disabled={!cities.length}
-          renderInput={params => (
-            <TextField margin='dense' type='text' autoComplete='off' placeholder='Select cities' {...params} />
-          )}
+          renderInput={params => <TextField {...textFieldProps} placeholder='Select cities' {...params} />}
         />
-        <Divider sx={{ my: 1 }} variant='middle' flexItem />
+        <Divider sx={{ my: 0.5 }} variant='middle' flexItem />
         <Autocomplete
-          onChange={(_, v) => setAddressFilter(v)}
-          value={addressFilter === null || addresses.indexOf(addressFilter) === -1 ? null : addressFilter}
-          fullWidth
+          {...(autoCompleteProps as AutocompleteProps<string, false, false, false>)}
+          onChange={(_, v) => filters.set.address(v || '')}
+          value={filters.address || null}
           options={addresses}
           disabled={!addresses.length}
-          disablePortal
-          autoComplete={false}
-          renderInput={params => (
-            <TextField margin='dense' type='text' autoComplete='off' placeholder='Select an address' {...params} />
-          )}
+          renderInput={params => <TextField {...textFieldProps} placeholder='Select an address' {...params} />}
         />
       </div>
-    </div>
-  );
-};
+    );
+  }
+);
 
 export default SearchBox;

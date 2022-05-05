@@ -3,6 +3,7 @@ $appBarHeight: 60px;
 .appBarRoot {
   height: $appBarHeight;
   border-bottom: 2px solid #adadad;
+  padding-right: 0 !important;
 }
 
 .layoutRoot {

@@ -188,7 +188,7 @@ const ContactTab = () => {
           transition: transform 0.2s;
         `}
       >
-        {/* <Item>
+        <Item>
           <List>
             <ListItem>
               <ListItemText primary={`Publisher's name: ${publishersName.current} Doe`} />
@@ -208,7 +208,7 @@ const ContactTab = () => {
               actionButtonHref='mailto:ListingPublisher@realEstate.com'
             />
           </List>
-        </Item> */}
+        </Item>
         <Item
         // position='relative'
         >
@@ -223,9 +223,9 @@ const ContactTab = () => {
           {/* </ItemLoader> */}
         </Item>
 
-        {/* <Item>
+        <Item>
           <UserContactMeForm />
-        </Item> */}
+        </Item>
       </Stack>
     </div>
   );

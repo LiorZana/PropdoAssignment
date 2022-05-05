@@ -1,16 +1,15 @@
 import { Button, Tooltip } from '@mui/material';
 import { css } from '@emotion/react';
-import React, { ReactNode, useState } from 'react';
+import React from 'react';
 import MapGL from '@/components/MapGL';
-import { Marker, Popup, NavigationControl, ViewState, FullscreenControl } from 'react-map-gl';
+import { Marker, Popup, NavigationControl, FullscreenControl } from 'react-map-gl';
 import MapIcon from '@mui/icons-material/Map';
 import { useNavigate } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+import MapTabSubStore from '@/stores/ListingDialogStore/MapTabSubStore';
 
 export interface MapTabProps {
-  viewState: ViewState;
-  onChange: (state: ViewState) => void;
-  addressLocation: { longitude: number; latitude: number };
-  addressLabel: ReactNode;
+  store: MapTabSubStore;
 }
 
 const MapExtUI = ({ onButtonClick }: { onButtonClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void }) => {
@@ -38,7 +37,7 @@ const MapExtUI = ({ onButtonClick }: { onButtonClick(e: React.MouseEvent<HTMLBut
         followCursor
       >
         <Button
-          color='secondary'
+          color='info'
           variant='contained'
           size='small'
           onClick={onButtonClick}
@@ -60,9 +59,10 @@ const MapExtUI = ({ onButtonClick }: { onButtonClick(e: React.MouseEvent<HTMLBut
   );
 };
 
-const MapTab = ({ viewState, onChange, addressLocation, addressLabel }: MapTabProps) => {
-  const [popupOpen, setPopupOpen] = useState(false);
+const MapTab = observer(({ store }: MapTabProps) => {
   const navigate = useNavigate();
+  const { viewState, addressCoords, addressLabel, popupOpen, togglePopup } = store;
+
   return (
     <MapGL
       rootProps={{
@@ -76,19 +76,23 @@ const MapTab = ({ viewState, onChange, addressLocation, addressLabel }: MapTabPr
         `,
         children: (
           <MapExtUI
-            onButtonClick={() => navigate(`/map?lng=${addressLocation.longitude}&lat=${addressLocation.latitude}`)}
+            onButtonClick={() => navigate(`/map?lng=${addressCoords.longitude}&lat=${addressCoords.latitude}`)}
           />
         )
       }}
       viewState={viewState}
-      onChange={onChange}
+      onChange={v => {
+        store.viewState = v;
+      }}
       height={300}
     >
       <Marker
-        onClick={() => setPopupOpen(!popupOpen)}
+        onClick={() => {
+          togglePopup();
+        }}
         style={{ cursor: 'pointer' }}
-        longitude={addressLocation.longitude}
-        latitude={addressLocation.latitude}
+        longitude={addressCoords.longitude}
+        latitude={addressCoords.latitude}
       >
         <img src='/images/mapbox-markerIcon.png' alt='map marker' />
       </Marker>
@@ -100,14 +104,14 @@ const MapTab = ({ viewState, onChange, addressLocation, addressLabel }: MapTabPr
           closeOnClick={false}
           closeButton={false}
           offset={[0, -20]}
-          longitude={addressLocation.longitude}
-          latitude={addressLocation.latitude}
+          longitude={addressCoords.longitude}
+          latitude={addressCoords.latitude}
         >
           {addressLabel}
         </Popup>
       )}
     </MapGL>
   );
-};
+});
 
 export default MapTab;

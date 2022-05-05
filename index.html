@@ -3,6 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="manifest" href="/favicon/light-mode/site.webmanifest" />
+    <link id="favicon" rel="icon" href="/favicon/light-mode/favicon.ico" />
+    <script>
+      var manifest = document.getElementById('favicon');
+      var prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (prefersDarkMode) {
+        manifest.href = manifest.href.replace('light', 'dark');
+      }
+    </script>
 
     <!-- If you wish to use Roboto, the default MUI font, keep the below link -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />

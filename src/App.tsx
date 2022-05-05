@@ -1,9 +1,21 @@
 import { FC } from 'react';
-import Layout from './Layout';
 import Routes from './Routes';
+import { ColorMode, ThemeProvider } from '@/providers/theme';
+import { BrowserRouter } from 'react-router-dom';
+import { RootStoreProvider } from './providers/RootStore';
 
 const App: FC = () => {
-  return <Routes />;
+  return (
+    <ColorMode>
+      <ThemeProvider>
+        <RootStoreProvider>
+          <BrowserRouter>
+            <Routes />
+          </BrowserRouter>
+        </RootStoreProvider>
+      </ThemeProvider>
+    </ColorMode>
+  );
 };
 
 export default App;

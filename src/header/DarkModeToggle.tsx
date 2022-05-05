@@ -1,10 +1,10 @@
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import DarkModeIcon from '@mui/icons-material/Brightness3';
 import LightModeIcon from '@mui/icons-material/WbSunny';
 import { styled } from '@mui/material';
 import isPropValid from '@emotion/is-prop-valid';
 
-import { useColorMode } from '@/providers';
+import { useColorMode } from '@/providers/theme';
 
 const DarkModeToggle: FC = () => {
   const { mode: theme, setMode: setTheme } = useColorMode();

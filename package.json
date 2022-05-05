@@ -11,7 +11,6 @@
     "scripts": "ts-node --project tsconfig.scripts.json ./scripts/editTransactions.ts"
   },
   "dependencies": {
-    "@caldwell619/react-hooks": "^0.0.10",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.6.1",
@@ -21,7 +20,7 @@
     "formik": "^2.2.9",
     "mapbox-gl": "^2.8.1",
     "mobx": "^6.5.0",
-    "mobx-react-lite": "^2.0.0-alpha.5",
+    "mobx-react-lite": "^3.3.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-map-gl": "^7.0.10",
