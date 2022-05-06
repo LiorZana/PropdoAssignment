@@ -10,7 +10,7 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:      
-      - run: echo $ENV | base64 -d > .env && cat .env
+      - run: echo $ENV | base64 -d > .env
         env:
           ENV: "${{ secrets.ENV }}"
       - uses: actions/checkout@v2
@@ -22,3 +22,4 @@ jobs:
           channelId: live
           projectId: lior-zana
           target: real-estate
+      - run: printenv
