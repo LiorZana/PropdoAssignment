@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "target": "realestate-demo",
+    "target": "real-estate",
     "public": "dist",
     "ignore": [
       "firebase.json",

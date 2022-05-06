@@ -18,7 +18,7 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_LIOR_ZANA }}'
           channelId: live
           projectId: lior-zana
-          target: realestate-demo
+          target: real-estate
   echo_env:
     runs-on: ubuntu-latest
     needs: build_and_deploy
