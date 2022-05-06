@@ -2,7 +2,7 @@
 # https://github.com/firebase/firebase-tools
 
 name: Deploy to Firebase Hosting on merge
-'on':
+"on":
   push:
     branches:
       - main
@@ -10,20 +10,16 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: build_and_deploy
       - uses: actions/checkout@v2
       - run: npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_LIOR_ZANA }}'
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_LIOR_ZANA }}"
           channelId: live
           projectId: lior-zana
-          target: real-estate
-  echo_env:
-    runs-on: ubuntu-latest
-    needs: build_and_deploy
-    steps:
+          target: real-estate=
       - run: echo $ENV | base64 -d > .env
         env:
-          ENV: '${{ secrets.ENV }}'
-
+          ENV: "${{ secrets.ENV }}"
