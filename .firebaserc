@@ -4,6 +4,6 @@
   },
   "hosting": {
     "site": "realestate-demo",
-    "public": "public"
+    "public": "dist"
   }
 }
