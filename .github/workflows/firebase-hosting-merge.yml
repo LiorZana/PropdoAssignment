@@ -19,7 +19,7 @@ jobs:
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_LIOR_ZANA }}"
           channelId: live
           projectId: lior-zana
-          target: real-estate=
+          target: real-estate
       - run: echo $ENV | base64 -d > .env
         env:
           ENV: "${{ secrets.ENV }}"
