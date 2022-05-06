@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "lior-zana"
+  },
+  "targets": {
+    "lior-zana": {
+      "hosting": {
+        "lior-zana": [
+          "realestate-demo"
+        ]
+      }
+    }
   }
 }
