@@ -23,6 +23,6 @@ jobs:
     needs: build_and_deploy
     steps:
       - run: echo $ENV | base64 -d > .env
-      - with:
+        env:
           ENV: '${{ secrets.ENV }}'
 
