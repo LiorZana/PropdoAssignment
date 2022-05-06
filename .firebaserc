@@ -1,9 +1,5 @@
 {
   "projects": {
     "default": "lior-zana"
-  },
-  "hosting": {
-    "site": "realestate-demo",
-    "public": "dist"
   }
 }
