@@ -1,5 +1,9 @@
 {
   "projects": {
-    "default": "propdoassignment"
+    "default": "lior-zana"
+  },
+  "hosting": {
+    "site": "realestate-demo",
+    "public": "public"
   }
 }
