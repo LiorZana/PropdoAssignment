@@ -5,6 +5,13 @@ import { resolve } from 'path';
 import { UserConfig } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 
+const viteEnv: { import: { meta: ImportMeta['env'] } } = { import: { meta: import.meta.env } };
+Object.keys(process.env).forEach(key => {
+  if (key.startsWith(`VITE_`)) {
+    viteEnv.import.meta[key] = process.env[key];
+  }
+});
+
 function pathResolve(dir: string) {
   return resolve(__dirname, '.', dir);
 }
@@ -15,6 +22,7 @@ const config: UserConfig = {
   publicDir: 'public',
   envDir: './',
   envPrefix: 'VITE_',
+  define: viteEnv,
   css: { postcss: { plugins: [autoprefixer()] } },
   resolve: {
     alias: [
