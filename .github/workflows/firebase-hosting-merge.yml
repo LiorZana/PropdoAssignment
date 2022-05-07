@@ -12,7 +12,6 @@ jobs:
     steps:
       - run: echo $ENV | base64 -d >> $GITHUB_ENV
         env:
-          MAPBOX_ACCESS_TOKEN: "${{ secrets.MAPBOX_ACCESS_TOKEN }}"
           ENV: "${{ secrets.ENV }}"
       - uses: actions/checkout@v2
       - run: npm ci && npm run build
