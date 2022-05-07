@@ -4,8 +4,6 @@ import { ColorMode, ThemeProvider } from '@/providers/theme';
 import { BrowserRouter } from 'react-router-dom';
 import { RootStoreProvider } from './providers/RootStore';
 
-console.log(import.meta.env);
-
 const App: FC = () => {
   return (
     <ColorMode>
