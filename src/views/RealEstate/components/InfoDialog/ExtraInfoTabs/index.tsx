@@ -1,8 +1,6 @@
 import { Tab, Tabs, Typography } from '@mui/material';
 import TabPanel from '@/components/TabPanel';
-import { useState } from 'react';
-import { ViewState } from 'react-map-gl';
-import MapTab, { MapTabProps } from './MapTab';
+import MapTab from './MapTab';
 import ContactTab from './ContactTab';
 import { observer } from 'mobx-react-lite';
 import ListingDialogStore from '@/stores/ListingDialogStore';

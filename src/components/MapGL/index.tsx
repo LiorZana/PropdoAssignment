@@ -1,7 +1,13 @@
-import { Map as MapGl, MapProps, MapRef, ViewState, ViewStateChangeEvent } from 'react-map-gl';
+import { MapProps, MapRef, ViewState, ViewStateChangeEvent } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { forwardRef, PropsWithChildren } from 'react';
+import { ComponentType, forwardRef, lazy, PropsWithChildren } from 'react';
 import { Box, BoxProps } from '@mui/material';
+import { MapboxEvent } from 'mapbox-gl';
+import Loadable from '../Loadable';
+
+const MapGl = Loadable(
+  lazy<ComponentType<MapProps>>(() => import('./MapGl') as UTILS.DynamicImportPromiseType<MapProps>)
+);
 
 const accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN as string;
 
@@ -16,10 +22,13 @@ export interface MapGLProps {
   onChange(state: ViewState): void;
   onChangeStart?(state: ViewState): void;
   onChangeEnd?(state: ViewState): void;
+  onLoad?(event: MapboxEvent): void;
   style?: MapProps['style'];
   width?: number | string;
   height?: number | string;
   rootProps?: PropsWithChildren<BoxProps>;
+  reuseMaps?: boolean;
+  trackResize?: boolean;
 }
 
 const getChangeHandler = (callback?: (state: ViewState) => void) => {
@@ -40,10 +49,13 @@ const MapGL = forwardRef<MapRef, PropsWithChildren<MapGLProps>>(
       onChange,
       onChangeStart,
       onChangeEnd,
+      onLoad,
       rootProps = { children: null },
       style = {},
       width = style.width || '100%',
       height = style.height || 800,
+      reuseMaps = true,
+      trackResize = true,
       children
     },
     ref
@@ -56,8 +68,9 @@ const MapGL = forwardRef<MapRef, PropsWithChildren<MapGLProps>>(
       <Box {...rootRest}>
         <MapGl
           ref={ref}
-          reuseMaps
-          trackResize
+          onLoad={onLoad}
+          reuseMaps={reuseMaps}
+          trackResize={trackResize}
           mapboxAccessToken={accessToken}
           latitude={+viewState.latitude}
           longitude={+viewState.longitude}

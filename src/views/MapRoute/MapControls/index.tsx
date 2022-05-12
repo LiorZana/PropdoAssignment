@@ -1,5 +1,3 @@
-import MapGL, { MapState } from '@/components/MapGL';
-import RadiusDisplay from '@/components/MapGL/components/RadiusDisplay';
 import {
   Card,
   FormControl,
@@ -8,13 +6,11 @@ import {
   Switch,
   TextField,
   TextFieldProps,
-  Typography,
-  Fab
+  Typography
 } from '@mui/material';
 import { Box } from '@mui/system';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { FullscreenControl, Marker, NavigationControl, ViewState } from 'react-map-gl';
-import { useSearchParams } from 'react-router-dom';
+import { ChangeEvent } from 'react';
+import { ViewState } from 'react-map-gl';
 
 const MapTextField = (props: Omit<TextFieldProps, 'type' | 'sx' | 'margin' | 'autoComplete'>) => (
   <FormControl>
@@ -89,7 +85,7 @@ const MapControls = ({
       position='fixed'
       display='flex'
       flexDirection='column'
-      top='56%'
+      top='70%'
       left='2%'
       py={1}
       zIndex={99999}

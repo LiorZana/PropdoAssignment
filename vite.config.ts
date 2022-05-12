@@ -40,7 +40,8 @@ const config: UserConfig = {
         dev: {
           overrideConfig: {
             extensions: ['.ts', '.tsx']
-          }
+          },
+          logLevel: ['warning', 'error']
         }
       }
     })

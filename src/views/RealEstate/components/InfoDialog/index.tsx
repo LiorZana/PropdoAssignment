@@ -14,15 +14,11 @@ const ResponsivePaper = (props: PaperProps) => {
       {...props}
       css={css`
         justify-content: center;
+        overflow-y: hidden;
         @media screen and (max-width: 600px) {
           padding-top: 5rem;
-          overflow-y: hidden;
-        }
-        @media screen and (max-width: 400px) {
-          padding-top: 10rem;
-        }
-        @media screen and (max-width: 250px) {
-          padding-top: 13rem;
+          justify-content: flex-start;
+          overflow-y: scroll;
         }
       `}
     />
@@ -47,11 +43,6 @@ const InfoDialog = observer(({ store }: { store: ListingDialogStore }) => {
       disableEnforceFocus
       disablePortal
       open={dialogTarget !== -1}
-      PaperProps={{
-        css: css`
-          justify-content: center;
-        `
-      }}
       fullWidth
       fullScreen={fullScreen}
       PaperComponent={ResponsivePaper}

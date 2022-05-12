@@ -1,11 +1,13 @@
+import MapControls from './MapControls';
 import MapGL from '@/components/MapGL';
 import RadiusDisplay from '@/components/MapGL/components/RadiusDisplay';
-import { Fab } from '@mui/material';
-import { useRef, useState } from 'react';
 import { FullscreenControl, Marker, NavigationControl, ViewState } from 'react-map-gl';
+import { useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import MapControls from './MapControls';
-import AddIcon from '@mui/icons-material/Add';
+// import { Fab } from '@mui/material';
+// import AddIcon from '@mui/icons-material/Add';
+
+const radiusDisplayId = 'map-route-radius-display';
 
 const MapRoute = () => {
   const [search] = useSearchParams();
@@ -35,7 +37,7 @@ const MapRoute = () => {
 
   return (
     <div style={{ position: 'relative' }}>
-      <MapGL height={'93.5vh'} viewState={viewState} onChange={setViewState}>
+      <MapGL reuseMaps={false} height={'93.5vh'} viewState={viewState} onChange={setViewState}>
         {showMarker && (
           <Marker longitude={viewState.longitude} latitude={viewState.latitude}>
             <img src='/images/mapbox-markerIcon.png' alt='map marker' />
@@ -46,16 +48,16 @@ const MapRoute = () => {
             longitude={viewState.longitude}
             latitude={viewState.latitude}
             radius={radiusCIR}
-            sourceId='radius-display'
+            sourceId={radiusDisplayId}
           />
         )}
 
         <FullscreenControl position='top-right' />
         <NavigationControl position='top-right' />
       </MapGL>
-      <Fab sx={{ position: 'fixed', top: '80%', left: '1px', zIndex: 9999 }}>
+      {/* <Fab sx={{ position: 'fixed', top: '80%', left: '1px', zIndex: 9999 }}>
         <AddIcon />
-      </Fab>
+      </Fab> */}
       <MapControls
         viewState={viewState}
         setViewState={setViewState}

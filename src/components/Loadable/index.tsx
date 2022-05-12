@@ -1,13 +1,20 @@
 import Loader from '../Loader';
-import { Suspense, LazyExoticComponent, ComponentType, PropsWithChildren, ReactElement } from 'react';
-import { PropsOf } from '@emotion/react';
+import {
+  Suspense,
+  LazyExoticComponent,
+  ComponentType,
+  PropsWithChildren,
+  ReactElement,
+  PropsWithRef,
+  ComponentProps
+} from 'react';
 
 // project imports
 
 // ==============================|| LOADABLE - LAZY LOADING ||============================== //
 
-const Loadable = (Component: LazyExoticComponent<() => ReactElement> | ComponentType<React.PropsWithChildren<any>>) =>
-  function Loaded(props: PropsWithChildren<unknown>) {
+const Loadable = <C extends ComponentType<any>, LC extends LazyExoticComponent<C>>(Component: LC) =>
+  function Loaded(props: ComponentProps<C>) {
     return (
       <Suspense fallback={<Loader />}>
         <Component {...props} />

@@ -44,7 +44,6 @@ const RealEstate = observer(() => {
               : realEstateStore.filtered.map((data, i) => (
                   <Grid
                     onClick={() => {
-                      console.log('index', i);
                       listingDialogStore.dialogTargetIndex = i;
                     }}
                     key={i}

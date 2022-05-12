@@ -16,23 +16,40 @@ import {
   reduceTransactionDataToOptions
 } from './utils';
 
+const initFilters: TransactionFilters = {
+  states: [],
+  cities: [],
+  address: '',
+  price: { min: 0, max: 0 },
+  rooms: { min: 0, max: 0 }
+};
+
 class RealEstateStore {
   public fetchStatus: 'idle' | 'fetching' | 'error' = 'idle';
   private _transactions: TransactionData[] = [];
   private _sorting: RealEstateSorting = RealEstateSorting.ADDRESS;
-  protected _filters: TransactionFilters = {
-    states: [],
-    cities: [],
-    address: '',
-    price: { min: 0, max: 0 },
-    rooms: { min: 0, max: 0 }
-  };
+  protected _filters: TransactionFilters = initFilters;
   private _filterSetters = getSetters.apply(this);
+  private _autoScrollState = false;
   public get transactions() {
     return this._transactions;
   }
   public set transactions(value: TransactionData[]) {
     this._transactions = value;
+  }
+  private get clearedFilters() {
+    return {
+      ...initFilters,
+      price: { min: this.lowestPrice || 0, max: this.highestPrice || 0 },
+      rooms: { min: this.lowestRoom_num || 0, max: this.highestRoom_num || 0 }
+    };
+  }
+
+  public get autoScrollState() {
+    return this._autoScrollState;
+  }
+  public toggleAutoScroll() {
+    this._autoScrollState = !this._autoScrollState;
   }
 
   constructor() {
@@ -42,6 +59,17 @@ class RealEstateStore {
     this.filterFunction = this.filterFunction.bind(this);
     this.getNumericDataRangeUnfiltered = this.getNumericDataRangeUnfiltered.bind(this);
     this.getNumericDataRangeFiltered = this.getNumericDataRangeFiltered.bind(this);
+    this.clearFilters = this.clearFilters.bind(this);
+    this.toggleAutoScroll = this.toggleAutoScroll.bind(this);
+  }
+
+  public clearFilters(...filters: (keyof TransactionFilters)[]) {
+    if (filters.length) {
+      for (const key of filters) {
+        this._filters[key] = this.clearedFilters[key] as any;
+      }
+    }
+    this._filters = this.clearedFilters;
   }
 
   protected getFilterSetter<Key extends keyof TransactionFilters>(key: Key) {

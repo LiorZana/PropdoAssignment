@@ -78,7 +78,7 @@ const ListCard = ({ data }: { data: TransactionData }) => (
     mouseLeaveElevation={2}
     style={{ width: '320px', height: '220px', cursor: 'pointer' }}
   >
-    <CardMedia style={{ width: '100%', height: '120px' }} image={data.images[0]} />
+    <CardMedia aria-label='Listing image' style={{ width: '100%', height: '120px' }} image={data.images[0]} />
     <Divider />
     <Tooltip title={getAddressLabel(data.address)}>
       <div style={{ width: '100%' }}>

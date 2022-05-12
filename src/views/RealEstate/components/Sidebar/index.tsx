@@ -1,97 +1,64 @@
-import useOnScroll from '@/hooks/useOnScroll';
-import RealEstateStore from '@/stores/RealEstateStore';
-import { realEstateSortingOptions } from '@/stores/RealEstateStore/utils';
-import { Box, Button, Collapse, Stack, SxProps, Theme, Typography, useMediaQuery } from '@mui/material';
+// UTILS
 import { observer } from 'mobx-react-lite';
-import { ReactNode, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
+import useOnScroll from '@/hooks/useOnScroll';
+import { css, useTheme } from '@emotion/react';
+// COMPONENTS
 import PriceSlider from '../PriceSlider';
 import RoomFilter from '../RoomFilter';
 import SearchBox from '../SearchBox';
 import SortBox from '../SortBox';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useColorMode } from '@/providers/theme';
-import { useTheme } from '@emotion/react';
-import SidebarResetFiltersButton from './SiderbarResetFiltersButton';
-
-const SidebarSection = observer(
-  ({
-    children,
-    title = 'Section title',
-    first = false,
-    last = false
-  }: {
-    children: ReactNode;
-    title?: string;
-    first?: boolean;
-    last?: boolean;
-  }) => {
-    const [open, setOpen] = useState(first);
-    const borderRadius = first ? '10px 10px 0 0' : last ? '0 0 1rem 1rem' : '0';
-    const colorMode = useColorMode();
-    const theme = useTheme();
-    return (
-      <Box
-        sx={{
-          borderColor: theme.palette.primary.main,
-          backgroundColor: 'background.default',
-          borderStyle: 'solid',
-          borderRadius,
-          borderWidth: '1px',
-          boxShadow: '0 2px 2px 0px #333333ff',
-          zIndex: 1
-        }}
-      >
-        <Button
-          // variant='outlined'
-          endIcon={
-            <ArrowBackIcon
-              color='secondary'
-              sx={{ transform: `rotateZ(${open ? '270' : '0'}deg)`, transition: 'transform 0.3s' }}
-            />
-          }
-          sx={{
-            textTransform: 'none',
-            width: '100%',
-            justifyContent: 'space-between',
-            borderRadius: 'inherit',
-            p: 1.5
-          }}
-          onClick={() => setOpen(!open)}
-        >
-          <Typography color={colorMode.mode === 'light' ? 'secondary.dark' : 'primary.main'}>{title}</Typography>
-        </Button>
-        <Collapse in={open}>
-          <Box px={1} py={0.8}>
-            {children}
-          </Box>
-        </Collapse>
-      </Box>
-    );
-  }
-);
+import SidebarButton from './SidebarButton';
+import ButtonsContainer from './ButtonsContainer';
+import SidebarSection from './SidebarSection';
+import { Stack } from '@mui/material';
+// ICONS
+import ClearFiltersIcon from '@mui/icons-material/FilterListOffOutlined';
+import DisableScrollIcon from '@mui/icons-material/MobiledataOff';
+import EnableScrollIcon from '@mui/icons-material/UnfoldMore';
+// STORE
+import RealEstateStore from '@/stores/RealEstateStore';
+import { realEstateSortingOptions } from '@/stores/RealEstateStore/utils';
 
 const RealEstateSidebar = observer(({ store }: { store: RealEstateStore }) => {
   const scrollPosition = useOnScroll();
-  const { filters, filterOptions } = store;
+  const [lastScrollPos, setLastScrollPos] = useState(scrollPosition);
+  const { filters, filterOptions, autoScrollState: autoScrollDisabled, clearFilters, toggleAutoScroll } = store;
   const setFilters = useMemo(() => filters.set, [filters]);
   const { states, cities, addresses } = filterOptions;
+
+  const handleToggleAutoScroll = () => {
+    setLastScrollPos(scrollPosition);
+    toggleAutoScroll();
+  };
   return (
     <Stack
       component='form'
+      css={css`
+        transition-property: all;
+        transition-duration: 0.5s;
+        transition-delay: 0.1s;
+        transition-timing-function: ease-in-out;
+        transform-origin: center;
+        max-width: 100%;
+        min-width: fit-content;
+        position: relative;
+      `}
       sx={{
         px: { xs: 2, md: 0 },
-        transition: 'all 0.5s ease-in-out',
-        transitionDelay: '0.1s',
-        transformOrigin: 'center',
-        marginTop: { md: scrollPosition + 'px' },
-        width: '100%',
-        maxWidth: '100%',
-        minWidth: 'fit-content',
-        position: 'relative'
+        marginTop: { md: (autoScrollDisabled ? lastScrollPos : scrollPosition) + 'px' }
       }}
     >
-      <SidebarResetFiltersButton />
-      <SidebarSection first title='Search an address'>
+      {/* <SidebarResetFiltersButton onClick={() => store.clearFilters()} /> */}
+      <ButtonsContainer>
+        <SidebarButton onClick={() => clearFilters()} Icon={ClearFiltersIcon} title='Clear Filters' />
+        <SidebarButton
+          onClick={handleToggleAutoScroll}
+          Icon={autoScrollDisabled ? EnableScrollIcon : DisableScrollIcon}
+          title={`${autoScrollDisabled ? 'Enable' : 'Disable'} auto-scroll`}
+        />
+      </ButtonsContainer>
+      <SidebarSection zIndex={2} first title='Search an address'>
         <SearchBox
           store={store}
           onStatesChange={setFilters.states}

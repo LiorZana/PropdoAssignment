@@ -27,6 +27,7 @@ const ImagesDisplay = observer(({ store }: { store: ListingDialogStore }) => {
         >
           <CardMedia
             image={selectedImageSrc}
+            aria-label='Selected listing image'
             css={css`
               width: 100%;
               height: 65%;
@@ -58,6 +59,7 @@ const ImagesDisplay = observer(({ store }: { store: ListingDialogStore }) => {
               {...buttonProps}
             >
               <CardMedia
+                aria-label='Listing images'
                 css={css`
                   width: 100%;
                   height: 40px;

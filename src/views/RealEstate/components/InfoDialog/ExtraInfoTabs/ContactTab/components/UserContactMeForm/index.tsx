@@ -1,11 +1,11 @@
 import PhoneInput from '@/components/PhoneInput';
 import { Button, Divider, FormControlLabel, FormHelperText, List, ListItem, Switch, TextField } from '@mui/material';
 import { useFormik } from 'formik';
-import { useEffect, useMemo } from 'react';
-import { Value as PhoneNumber, isValidPhoneNumber } from 'react-phone-number-input';
+import { useMemo } from 'react';
+import { Value as PhoneNumber } from 'react-phone-number-input';
 import { css } from '@emotion/react';
 import * as yup from 'yup';
-import useFieldValidation from '@/hooks/useValidation';
+// import useFieldValidation from '@/hooks/useValidation';
 
 interface UserContactFromState {
   useInSite: boolean;

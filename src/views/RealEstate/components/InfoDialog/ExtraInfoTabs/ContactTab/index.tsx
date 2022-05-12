@@ -15,7 +15,8 @@ import {
   CircularProgress,
   Fade,
   SliderThumb,
-  SliderTypeMap
+  SliderTypeMap,
+  useMediaQuery
 } from '@mui/material';
 import { css, useTheme } from '@emotion/react';
 import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
@@ -126,6 +127,7 @@ const ContactTab = () => {
   const publishersName = useRef(Math.random() > 0.5 ? 'John' : 'Jane');
   const [sendMessageStage, setSendMessageStage] = useState(FormStages.PRE_SEND);
   const sendMessageTimeoutId = useRef<number | null>(null);
+  const isLessThan500px = useMediaQuery('(max-width: 500px)');
 
   useEffect(() => {
     if (sendMessageStage === FormStages.LOADING && !sendMessageTimeoutId.current) {
@@ -142,6 +144,9 @@ const ContactTab = () => {
         position: relative;
         height: 240px;
         overflow: hidden;
+        @media screen and (max-width: 500px) {
+          height: 290px;
+        }
       `}
     >
       <div
@@ -159,6 +164,13 @@ const ContactTab = () => {
           justify-content: flex-start;
           pointer-events: none;
           user-select: none;
+          @media screen and (max-width: 500px) {
+            height: 100%;
+            align-items: flex-start;
+            justify-content: center;
+            padding-left: 3rem;
+            padding-right: 3rem;
+          }
         `}
       >
         <Slider
@@ -171,21 +183,28 @@ const ContactTab = () => {
           onChange={e => setSliderState(+(e.target as HTMLInputElement).value)}
           // components={{ Thumb: TriangleSliderThumb }}
           componentsProps={{
-            rail: { style: { borderRadius: 0, width: '10px' } }
+            rail: { style: { borderRadius: 0, width: isLessThan500px ? '100%' : '10px' } }
           }}
           min={0}
           max={2}
           track={false}
-          orientation='vertical'
+          orientation={isLessThan500px ? 'horizontal' : 'vertical'}
           step={1}
         />
       </div>
       <Stack
+        direction={isLessThan500px ? 'row' : 'column'}
         css={css`
           width: 75%;
           margin-left: auto;
           transform: translateY(${(2 - sliderState) * -contactTabItemHeight}px);
           transition: transform 0.2s;
+          @media screen and (max-width: 500px) {
+            width: 300%;
+            margin-top: 4rem;
+            margin-right: auto;
+            transform: translateX(calc(${sliderState} * -33%));
+          }
         `}
       >
         <Item>

@@ -14,20 +14,18 @@ const HoverCard = ({
   mouseLeaveElevation?: number;
 }) => {
   const [isMouseOver, setMouseOver] = useState(false);
-  const { onMouseEnter, onMouseLeave, ...cardProps } = useMemo(
-    () => ({
-      ...props,
-      ...(isMouseOver
-        ? mouseEnterElevation
-          ? { ...mouseEnterProps, elevation: mouseEnterElevation }
-          : mouseEnterProps
-        : mouseLeaveElevation
-        ? { ...mouseLeaveProps, elevation: mouseLeaveElevation }
-        : mouseLeaveProps)
-    }),
-    [props, mouseEnterProps, mouseLeaveProps, mouseEnterElevation, mouseLeaveElevation, isMouseOver]
-  );
-
+  const { onMouseEnter, onMouseLeave, ...hoverProps } = (function getHoverProps(): CardProps {
+    if (isMouseOver) {
+      if (mouseEnterElevation) {
+        return { ...mouseEnterProps, elevation: mouseEnterElevation };
+      }
+      return { ...mouseEnterProps, raised: true };
+    }
+    if (mouseLeaveElevation) {
+      return { ...mouseLeaveProps, elevation: mouseLeaveElevation };
+    }
+    return { ...mouseLeaveProps, raised: false };
+  })();
   const handleMouseEnter: MouseEventHandler<HTMLDivElement> = e => {
     setMouseOver(true);
     if (onMouseEnter) onMouseEnter(e);
@@ -37,7 +35,7 @@ const HoverCard = ({
     if (onMouseLeave) onMouseLeave(e);
   };
 
-  return <Card onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} {...cardProps} />;
+  return <Card onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} {...props} {...hoverProps} />;
 };
 
 export default HoverCard;

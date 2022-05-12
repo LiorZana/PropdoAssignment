@@ -5,34 +5,34 @@ import { GeoLocation } from '@/types/MapGL';
 import * as turf from '@turf/turf';
 import { useMemo } from 'react';
 
-const squareGeoJson = (longitude: number, latitude: number, radius: number): GeoJSON.FeatureCollection => {
-  radius = turf.convertDistance(radius, 'meters', 'degrees');
-  const south = latitude - radius;
-  const west = longitude - radius;
-  const north = latitude + radius;
-  const east = longitude + radius;
-  return {
-    type: 'FeatureCollection',
-    features: [
-      {
-        type: 'Feature',
-        properties: {},
-        geometry: {
-          type: 'Polygon',
-          coordinates: [
-            [
-              [west, south],
-              [east, south],
-              [east, north],
-              [west, north],
-              [west, south]
-            ]
-          ]
-        }
-      }
-    ]
-  };
-};
+// const squareGeoJson = (longitude: number, latitude: number, radius: number): GeoJSON.FeatureCollection => {
+//   radius = turf.convertDistance(radius, 'meters', 'degrees');
+//   const south = latitude - radius;
+//   const west = longitude - radius;
+//   const north = latitude + radius;
+//   const east = longitude + radius;
+//   return {
+//     type: 'FeatureCollection',
+//     features: [
+//       {
+//         type: 'Feature',
+//         properties: {},
+//         geometry: {
+//           type: 'Polygon',
+//           coordinates: [
+//             [
+//               [west, south],
+//               [east, south],
+//               [east, north],
+//               [west, north],
+//               [west, south]
+//             ]
+//           ]
+//         }
+//       }
+//     ]
+//   };
+// };
 
 const layerStyle: FillLayer = {
   id: 'point',
@@ -57,7 +57,7 @@ const RadiusDisplay = ({
 
   return (
     <Source id={sourceId} type='geojson' data={circle}>
-      {!!radius && <Layer {...layerStyle} />}
+      {!!radius && <Layer {...layerStyle} id={sourceId} />}
     </Source>
   );
 };
